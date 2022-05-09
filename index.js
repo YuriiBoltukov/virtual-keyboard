@@ -5,22 +5,27 @@
 const keyCodes = [
     96,49,50,51,52,53,54,55,56,57,48,45,61,8,9,113,119,101,114,116,121,117,105,111,112,91,93,13,20,97,115,
     100,102,103,104,106,108,59,39,92,16,122,120,99,118,98,110,
-    109,44,46,47,16,17,18,32,18,17];
+    109,44,46,47,16,17,18,32,18,17
+];
 
 let isUpperCase = false;
 
 function init(){
-    const container = document.createElement('div');
-    container.classList.add('container');
-    container.innerHTML = `
+    try {
+        const container = document.createElement('div');
+        container.classList.add('container');
+        container.innerHTML = `
         <h1>Keyboard</h1>
         <textarea  id="textarea" cols="30" rows="10" autofocus="true"></textarea>
         <div id="keyboard"></div>
         <button onclick="hello()">magic button</button>
     `;
-    document.body.appendChild(container);
-    createMarkup();
-    eventsHandlers();
+        document.body.appendChild(container);
+        createMarkup();
+        eventsHandlers();
+    } catch (e) {
+        console.log("Don't worry be happy))");
+    }
 }
 
 /**
@@ -61,10 +66,12 @@ function eventsHandlers(){
      * @param event {KeyboardEvent}
      */
     document.onkeypress = function(event) {
+        console.log('event', event)
+        console.log('event.keyCode', event.keyCode)
         document.querySelectorAll('#keyboard .k-key').forEach(function(element){
             element.classList.remove('active');
         });
-        document.querySelector('#keyboard .k-key[data-code="'+event.keyCode+'"]').classList.add('active');
+        document.querySelector('#keyboard .k-key[data-code="'+event.keyCode+'"]')?.classList.add('active');
     }
     /**
      * virtual keyboard
@@ -74,6 +81,7 @@ function eventsHandlers(){
         element.onclick = function (event){
             const exceptCodes = ['8', '20', '16', '17', '18'];
             let code = this.getAttribute('data-code');
+            console.log('code', code)
             if (!exceptCodes.includes(code)) {
                 textarea.value += isUpperCase ? String.fromCharCode(code).toUpperCase() : String.fromCharCode(code);
             } else if (code === '8') {
