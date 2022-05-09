@@ -20,6 +20,10 @@
     margin: 3px;
     padding: 3px;
     float: left;
+    cursor: pointer;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    user-select: none;
 }
 .wide {
     width: 100px;
