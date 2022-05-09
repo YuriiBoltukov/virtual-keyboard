@@ -21,6 +21,12 @@
     padding: 3px;
     float: left;
 }
+.wide {
+    width: 100px;
+}
+.full {
+    width: 600px;
+}
 .active {
     background: aquamarine;
 }
