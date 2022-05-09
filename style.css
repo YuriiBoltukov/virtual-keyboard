@@ -1,0 +1,43 @@
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+#keyboard {
+    display: block;
+    border: 2px solid #000000;
+    padding: 5px;
+}
+#keyboard::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+.k-key {
+    width: 50px;
+    height: 50px;
+    border: 1px solid seagreen;
+    margin: 3px;
+    padding: 3px;
+    float: left;
+}
+.active {
+    background: aquamarine;
+}
+
+#textarea {
+    width: 100%;
+    padding: 5px;
+    font-size: 2rem;
+}
+.clearfix {
+    zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+}
