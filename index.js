@@ -1,9 +1,3 @@
-
-/**
- * instance of textarea
- * @type {Element}
- */
-const textarea = document.querySelector('#textarea');
 /**
  * The array that contains the codes of symbols of the keyboard
  * @type {number[]} // UTF-16
@@ -15,6 +9,19 @@ const keyCodes = [
 
 let isUpperCase = false;
 
+function init(){
+    const container = document.createElement('div');
+    container.classList.add('container');
+    container.innerHTML = `
+        <h1>Keyboard</h1>
+        <textarea  id="textarea" cols="30" rows="10" autofocus="true"></textarea>
+        <div id="keyboard"></div>
+        <button onclick="hello()">magic button</button>
+    `;
+    document.body.appendChild(container);
+    createMarkup();
+    eventsHandlers();
+}
 
 /**
  * function for creating html of virtual keyboard
@@ -40,45 +47,54 @@ function createMarkup(){
     }
     document.querySelector('#keyboard').innerHTML = markup;
 }
-createMarkup();
-/**
- * physic keyboard
- * listener for onkeypress events
- * @param event {KeyboardEvent}
- */
-document.onkeypress = function(event) {
-    document.querySelectorAll('#keyboard .k-key').forEach(function(element){
-        element.classList.remove('active');
-    });
-    document.querySelector('#keyboard .k-key[data-code="'+event.keyCode+'"]').classList.add('active');
-}
-/**
- * virtual keyboard
- * listener for onclick events
- */
-document.querySelectorAll('#keyboard .k-key').forEach(function(element){
-    element.onclick = function (event){
-        const exceptCodes = ['8', '20', '16', '17', '18'];
-        let code = this.getAttribute('data-code');
-        this.classList.add('active');
-        if (!exceptCodes.includes(code)) {
-            textarea.value += isUpperCase ? String.fromCharCode(code).toUpperCase() : String.fromCharCode(code);
-        } else if (code === '8') {
-            textarea.value = textarea.value.slice(0, -1);
-        } else if (code === '20') {
-            isUpperCase = !isUpperCase;
-        }
+
+function eventsHandlers(){
+    /**
+     * instance of textarea
+     * @type {Element}
+     */
+    const textarea = document.querySelector('#textarea');
+
+    /**
+     * physic keyboard
+     * listener for onkeypress events
+     * @param event {KeyboardEvent}
+     */
+    document.onkeypress = function(event) {
         document.querySelectorAll('#keyboard .k-key').forEach(function(element){
             element.classList.remove('active');
         });
-        document.querySelectorAll('#keyboard .letter').forEach(function(element){
-            element.innerHTML = isUpperCase ? element.innerHTML.toUpperCase() : element.innerHTML.toLowerCase();
-        });
+        document.querySelector('#keyboard .k-key[data-code="'+event.keyCode+'"]').classList.add('active');
     }
-});
+    /**
+     * virtual keyboard
+     * listener for onclick events
+     */
+    document.querySelectorAll('#keyboard .k-key').forEach(function(element){
+        element.onclick = function (event){
+            const exceptCodes = ['8', '20', '16', '17', '18'];
+            let code = this.getAttribute('data-code');
+            if (!exceptCodes.includes(code)) {
+                textarea.value += isUpperCase ? String.fromCharCode(code).toUpperCase() : String.fromCharCode(code);
+            } else if (code === '8') {
+                textarea.value = textarea.value.slice(0, -1);
+            } else if (code === '20') {
+                isUpperCase = !isUpperCase;
+            }
+            document.querySelectorAll('#keyboard .k-key').forEach(function(element){
+                element.classList.remove('active');
+            });
+            element.classList.add('active');
+            document.querySelectorAll('#keyboard .letter').forEach(function(element){
+                element.innerHTML = isUpperCase ? element.innerHTML.toUpperCase() : element.innerHTML.toLowerCase();
+            });
+        }
+    });
+}
 
 function hello(){
     let name = prompt('set your name') || 'noname';
     alert('hello '+ name);
 }
 
+init();
